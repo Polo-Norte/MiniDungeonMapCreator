@@ -63,6 +63,7 @@ namespace MiniDungeon_MapCreator
             selectedElement = new OptionElement(curValue);
             menuPanel.Children.Add(selectedElement);
             Canvas.SetTop(selectedElement, 250);
+
         }
 
         public void SetValue(char value)
