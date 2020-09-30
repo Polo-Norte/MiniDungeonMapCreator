@@ -1,0 +1,88 @@
+﻿<Window x:Name="MainWindow1" x:Class="MiniDungeon_MapCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MiniDungeon_MapCreator"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d"
+        Title="Mini Dungeon Map Creator" Height="637" Width="720" ResizeMode="CanMinimize" Background="#FF4D5355" Closed="WindowClosed">
+    <Canvas x:Name="canvasPanel" Margin="0,0,-1,1">
+        <Image x:Name="canvas" Height="600" Canvas.Left="105" Canvas.Top="0" Width="600"/>
+        <Label x:Name="coordLabel" Content="0 / 0" Canvas.Left="625" RenderTransformOrigin="0.5,0.5" Height="32" Width="75" Panel.ZIndex="3" Canvas.Top="558" FontSize="16" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" UseLayoutRounding="False" IsHitTestVisible="False" Foreground="#FF979797"/>
+        <local:GridArea x:Name="gridCanvas" Height="600" Canvas.Left="105" Canvas.Top="0" Width="600" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp"/>
+        <ScrollViewer Height="312" Canvas.Top="288" Width="100" VerticalScrollBarVisibility="Hidden" Background="#FF424242">
+            <StackPanel x:Name="selectionPanel" Height="800" Width="100"/>
+        </ScrollViewer>
+        <Canvas x:Name="menuPanel" Height="288" Width="100" Background="#FF4A4D4D">
+            <TextBox x:Name="sizeBox" Height="24" Canvas.Left="10" TextWrapping="Wrap" Text="1" Canvas.Top="216" Width="80" TextChanged="sizeBox_TextChange" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="0" Padding="0,3,3,0"/>
+            <Label Content="Size:" Canvas.Left="10" Canvas.Top="213" RenderTransformOrigin="0.605,1.346" Height="29" Width="80" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False"/>
+            <Button Content="New" Canvas.Left="10" Canvas.Top="10" Width="80"  FontSize="14" Foreground="#FFD2E1D2" Click="NewClick">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#FF647070"/>
+                        <Setter Property="BorderBrush" Value="#FFABADB3"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
+                                        <ContentPresenter HorizontalAlignment="Center" Height="20"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF628787"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Save" Canvas.Left="10" Canvas.Top="38" Width="80" Foreground="#FFD2E1D2" FontSize="14" RenderTransformOrigin="0.496,1.377" Click="SaveClick">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#FF647070"/>
+                        <Setter Property="BorderBrush" Value="#FFABADB3"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
+                                        <ContentPresenter HorizontalAlignment="Center" Height="20"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF628787"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Load" Canvas.Left="10" Canvas.Top="66" Width="80" Foreground="#FFD2E1D2" FontSize="14" Click="LoadClick">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#FF647070"/>
+                        <Setter Property="BorderBrush" Value="#FFABADB3"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
+                                        <ContentPresenter HorizontalAlignment="Center" Height="20"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF628787"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Canvas>
+    </Canvas>
+</Window>

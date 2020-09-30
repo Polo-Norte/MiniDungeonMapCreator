@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1062
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniDungeon_MapCreator", "MiniDungeon_MapCreator\MiniDungeon_MapCreator.csproj", "{C0DC9F5C-DB88-4C45-9D80-8BF6F3285B86}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0DC9F5C-DB88-4C45-9D80-8BF6F3285B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0DC9F5C-DB88-4C45-9D80-8BF6F3285B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0DC9F5C-DB88-4C45-9D80-8BF6F3285B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0DC9F5C-DB88-4C45-9D80-8BF6F3285B86}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AAE7A885-1EFE-4CF3-BD9F-9A2C61FBBDEE}
+	EndGlobalSection
+EndGlobal
