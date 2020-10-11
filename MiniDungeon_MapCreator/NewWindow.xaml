@@ -60,6 +60,7 @@
             <CheckBox x:Name="westBox" Content="West" Foreground="#FFD2E1D2" BorderBrush="#FFABADB3" Background="#FF647070" Margin="0,0,5,2" FontSize="14"/>
             <CheckBox x:Name="eastBox" Content="East" Foreground="#FFD2E1D2" BorderBrush="#FFABADB3" Background="#FF647070" Margin="0,0,5,2" FontSize="14"/>
             <CheckBox x:Name="centerBox" Content="Center" Foreground="#FFD2E1D2" BorderBrush="#FFABADB3" Background="#FF647070" Margin="0,0,5,2" FontSize="14"/>
+            <CheckBox x:Name="topBox" Content="Top" Foreground="#FFD2E1D2" BorderBrush="#FFABADB3" Background="#FF647070" Margin="0,0,5,2" FontSize="14"/>
         </WrapPanel>
         <Label Content="Select Entrances" Canvas.Left="23" Height="29" Width="178" Foreground="#FFD2E1D2" FontSize="14" Canvas.Top="3" IsHitTestVisible="False"/>
     </Canvas>

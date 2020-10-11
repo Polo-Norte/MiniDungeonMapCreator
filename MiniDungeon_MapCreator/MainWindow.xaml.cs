@@ -53,7 +53,7 @@ namespace MiniDungeon_MapCreator
             gridCanvas.SetupGrid(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3);
 
             KeyValuePair<char, GridCell>[] gridValues = GridArea.gridCellValues.ToArray();
-            for (int i = 0; i < gridValues.Length - 2; i++)
+            for (int i = 0; i < gridValues.Length - 4; i++)
             {
                 selectionPanel.Children.Add(new OptionElement(gridValues[i].Key));
             }

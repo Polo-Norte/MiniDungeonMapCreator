@@ -26,11 +26,18 @@ namespace MiniDungeon_MapCreator
             ['1'] = new GridCell(Color.FromArgb(255, 160, 220, 160), "Loot T1"),
             ['2'] = new GridCell(Color.FromArgb(255, 140, 180, 140), "Loot T2"),
             ['3'] = new GridCell(Color.FromArgb(255, 120, 140, 120), "Loot T3"),
+            ['d'] = new GridCell(Color.FromArgb(255, 119, 106, 204), "Decoration"),
+            ['F'] = new GridCell(Color.FromArgb(255, 41, 22, 168), "Fluid"),
+            ['f'] = new GridCell(Color.FromArgb(255, 17, 9, 71), "D. Fluid"),
+            ['P'] = new GridCell(Color.FromArgb(255, 148, 212, 188), "Mov. Plat."),
+            ['R'] = new GridCell(Color.FromArgb(255, 108, 172, 148), "Roller"),
+            ['e'] = new GridCell(Color.FromArgb(255, 122, 122, 82), "Elevator"),
+            ['T'] = new GridCell(Color.FromArgb(255, 220, 220, 240), "Roof"),
             ['X'] = new GridCell(Colors.DarkRed, "Door"), // Porta
-            ['O'] = new GridCell(Colors.Gray, "Hole") // Abertura (Chão);
+            ['O'] = new GridCell(Color.FromArgb(255, 82, 82, 82), "Hole") // Abertura (Chão);
         };
 
-        static readonly char[] fixedCells = { 'X', 'O' };
+        static readonly char[] fixedCells = { 'X', 'O', 'T', 'e' };
         private char[] gridValues;
         public WriteableBitmap bitmap;
 
@@ -65,7 +72,14 @@ namespace MiniDungeon_MapCreator
             if (ContainsBit(display, 1 << 3))
                 SetGridValueRect(new int2(0, 30), new int2(2, 34), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit(display, 1 << 4))
-                SetGridValueCircle(new Point(31 * gridSize.x, 31 * gridSize.y), 2.5f, 'O', EditMode.CONSTRUCTION);
+            {
+                Point center = new Point(31 * gridSize.x, 31 * gridSize.y);
+                SetGridValueCircle(center, 2.5f, 'O', EditMode.CONSTRUCTION);
+                SetGridValue(center, 'e', EditMode.CONSTRUCTION);
+            }
+            if (ContainsBit(display, 1 << 5))
+                SetGridValueCircle(new Point(31 * gridSize.x, 31 * gridSize.y), 2.5f, 'T', EditMode.CONSTRUCTION);
+                
         }
 
         private void CreateGrid(float2 gridSize)
