@@ -30,7 +30,9 @@ namespace MiniDungeon_MapCreator
             ['F'] = new GridCell(Color.FromArgb(255, 41, 22, 168), "Fluid"),
             ['f'] = new GridCell(Color.FromArgb(255, 17, 9, 71), "D. Fluid"),
             ['P'] = new GridCell(Color.FromArgb(255, 148, 212, 188), "Mov. Plat."),
+            ['p'] = new GridCell(Color.FromArgb(255, 190, 212, 188), "Mov. Plat. H"),
             ['R'] = new GridCell(Color.FromArgb(255, 108, 172, 148), "Roller"),
+            ['r'] = new GridCell(Color.FromArgb(255, 180, 180, 55), "Rope"),
             ['e'] = new GridCell(Color.FromArgb(255, 122, 122, 82), "Elevator"),
             ['T'] = new GridCell(Color.FromArgb(255, 220, 220, 240), "Roof"),
             ['X'] = new GridCell(Colors.DarkRed, "Door"), // Porta
