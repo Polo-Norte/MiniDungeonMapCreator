@@ -25,8 +25,6 @@ namespace MiniDungeon_MapCreator
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        public const int gridCount = 64;
         private char curValue = ' ';
         private float curSize = 1;
         public OptionElement selectedElement;
@@ -40,12 +38,11 @@ namespace MiniDungeon_MapCreator
         public MainWindow()
         {
             InitializeComponent();
-            gridSize = new float2((float)gridCanvas.Width / gridCount, (float)gridCanvas.Height / gridCount);
+            
+            gridSize = new float2((float)gridCanvas.Width / GridArea.cellCount, (float)gridCanvas.Height / GridArea.cellCount);
 
             gridCanvas.GridSize = gridSize;
-
             Panel.SetZIndex(gridCanvas, 2);
-
             bitmap = new WriteableBitmap(600, 600, 92, 92, PixelFormats.Bgr32, null);
             canvas.Source = bitmap;
             
@@ -63,7 +60,6 @@ namespace MiniDungeon_MapCreator
             selectedElement = new OptionElement(curValue);
             menuPanel.Children.Add(selectedElement);
             Canvas.SetTop(selectedElement, 250);
-
         }
 
         public void SetValue(char value)
@@ -169,6 +165,11 @@ namespace MiniDungeon_MapCreator
             newButtonWindow.Top = pos.Y + 150;
 
             newButtonWindow.ShowDialog();
+        }
+
+        private void SettingsClick(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void WindowClosed(object sender, EventArgs e)

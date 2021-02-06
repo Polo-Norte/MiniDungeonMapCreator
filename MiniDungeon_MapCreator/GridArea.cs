@@ -13,6 +13,9 @@ namespace MiniDungeon_MapCreator
 {
     class GridArea : Canvas
     {
+        public static int cellCount = 16;
+        public static int wallSize = 1;
+        public static int doorSize = 2;
 
         public static Dictionary<char, GridCell> gridCellValues = new Dictionary<char, GridCell>()
         {
@@ -61,18 +64,18 @@ namespace MiniDungeon_MapCreator
         public void SetupGrid(byte wallDisplay)
         {
             SetGridValueRect(new int2(0, 0), gridCount, '#', EditMode.CONSTRUCTION);
-            SetGridValueRect(new int2(2, 2), new int2(gridCount.x - 2, gridCount.y - 2), ' ', EditMode.CONSTRUCTION);
+            SetGridValueRect(new int2(wallSize, wallSize), new int2(gridCount.x - wallSize, gridCount.y - wallSize), ' ', EditMode.CONSTRUCTION);
 
             display = wallDisplay;
 
             if (ContainsBit(display, 1 << 0))
-                SetGridValueRect(new int2(30, 0), new int2(34, 2), 'X', EditMode.CONSTRUCTION);
+                SetGridValueRect(new int2(cellCount / 2 - doorSize, 0), new int2(cellCount / 2 + doorSize, wallSize), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit(display, 1 << 1))
-                SetGridValueRect(new int2(62, 30), new int2(64, 34), 'X', EditMode.CONSTRUCTION);
+                SetGridValueRect(new int2(cellCount - wallSize, cellCount / 2 - doorSize), new int2(cellCount, cellCount / 2 + doorSize), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit(display, 1 << 2))
-                SetGridValueRect(new int2(30, 62), new int2(34, 64), 'X', EditMode.CONSTRUCTION);
+                SetGridValueRect(new int2(cellCount / 2 - doorSize, cellCount - wallSize), new int2(cellCount / 2 + doorSize, cellCount), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit(display, 1 << 3))
-                SetGridValueRect(new int2(0, 30), new int2(2, 34), 'X', EditMode.CONSTRUCTION);
+                SetGridValueRect(new int2(0, cellCount / 2 - doorSize), new int2(wallSize, cellCount / 2 + doorSize), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit(display, 1 << 4))
             {
                 Point center = new Point(31 * gridSize.x, 31 * gridSize.y);
@@ -87,7 +90,6 @@ namespace MiniDungeon_MapCreator
         private void CreateGrid(float2 gridSize)
         {
             Children.Clear();
-
             int2 gridCount = new int2((int)(Width / gridSize.x), (int)(Height / gridSize.y));
             Brush gridBrush = new SolidColorBrush(Color.FromArgb(180, 210, 127, 127));
 
@@ -151,7 +153,7 @@ namespace MiniDungeon_MapCreator
             {
                 // Reserved for more behaviours
                 case EditMode.EDIT:
-                    if (gridCoord.x < 2 || gridCoord.y < 2 || gridCoord.x >= gridCount.x - 2 || gridCoord.y >= gridCount.y - 2 || fixedCells.Contains(gridValues[gridCoord.x + gridCoord.y * gridCount.x]))
+                    if (gridCoord.x < wallSize || gridCoord.y < wallSize || gridCoord.x >= gridCount.x - wallSize || gridCoord.y >= gridCount.y - wallSize || fixedCells.Contains(gridValues[gridCoord.x + gridCoord.y * gridCount.x]))
                         return;
                     break;
             }
