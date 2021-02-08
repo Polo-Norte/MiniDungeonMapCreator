@@ -13,7 +13,7 @@ namespace MiniDungeon_MapCreator
 {
     class GridArea : Canvas
     {
-        public static int cellCount = 16;
+        public static int cellCount = 17;
         public static int wallSize = 1;
         public static int doorSize = 2;
 
@@ -63,8 +63,8 @@ namespace MiniDungeon_MapCreator
         // Set the initial data
         public void SetupGrid(byte wallDisplay)
         {
-            SetGridValueRect(new int2(0, 0), gridCount, '#', EditMode.CONSTRUCTION);
-            SetGridValueRect(new int2(wallSize, wallSize), new int2(gridCount.x - wallSize, gridCount.y - wallSize), ' ', EditMode.CONSTRUCTION);
+            SetGridValueRect(new int2(0, 0), new int2(cellCount, cellCount), '#', EditMode.CONSTRUCTION);
+            SetGridValueRect(new int2(wallSize, wallSize), new int2(cellCount - wallSize, cellCount - wallSize), ' ', EditMode.CONSTRUCTION);
 
             display = wallDisplay;
 
@@ -90,10 +90,10 @@ namespace MiniDungeon_MapCreator
         private void CreateGrid(float2 gridSize)
         {
             Children.Clear();
-            int2 gridCount = new int2((int)(Width / gridSize.x), (int)(Height / gridSize.y));
+            gridCount = new int2((int)(Width / gridSize.x), (int)(Height / gridSize.y));
             Brush gridBrush = new SolidColorBrush(Color.FromArgb(180, 210, 127, 127));
 
-            for (int i = 1; i < gridCount.x; i++)
+            for (int i = 1; i < cellCount; i++)
             {
                 Line line = new Line
                 {
@@ -107,7 +107,7 @@ namespace MiniDungeon_MapCreator
                 Children.Add(line);
             }
 
-            for (int i = 1; i < gridCount.y; i++)
+            for (int i = 1; i < cellCount; i++)
             {
                 Line line = new Line
                 {
@@ -124,8 +124,8 @@ namespace MiniDungeon_MapCreator
             }
 
             this.gridSize = gridSize;
-            this.gridCount = gridCount;
-            gridValues = new char[gridCount.x * gridCount.y];
+            //this.gridCount = gridCount;
+            gridValues = new char[cellCount * cellCount];
         }
 
         public float2 GetGridPos(Point pos)
@@ -135,8 +135,9 @@ namespace MiniDungeon_MapCreator
 
         public int2 GetGridCoord(Point pos)
         {
-            float2 point = GetGridPos(pos);
-            return new int2((int)(point.x / gridSize.x), (int)(point.y / gridSize.y));
+            //float2 point = GetGridPos(pos);
+            float posi = (float)(pos.X / gridSize.x);
+            return new int2((int)(pos.X / gridSize.x), (int)(pos.Y / gridSize.y));
         }
 
         public void SetGridValue(Point point, char value, EditMode mode)
@@ -153,13 +154,13 @@ namespace MiniDungeon_MapCreator
             {
                 // Reserved for more behaviours
                 case EditMode.EDIT:
-                    if (gridCoord.x < wallSize || gridCoord.y < wallSize || gridCoord.x >= gridCount.x - wallSize || gridCoord.y >= gridCount.y - wallSize || fixedCells.Contains(gridValues[gridCoord.x + gridCoord.y * gridCount.x]))
+                    if (gridCoord.x < wallSize || gridCoord.y < wallSize || gridCoord.x >= cellCount - wallSize || gridCoord.y >= cellCount - wallSize || fixedCells.Contains(gridValues[gridCoord.x + gridCoord.y * cellCount]))
                         return;
                     break;
             }
             
             bitmap.DrawCell(this, point, gridCellValues[value].color);
-            gridValues[gridCoord.x + gridCoord.y * gridCount.x] = value;
+            gridValues[gridCoord.x + gridCoord.y * cellCount] = value;
         }
 
         public void SetGridValueRect(int2 point1, int2 point2, char value, EditMode mode)
@@ -183,7 +184,6 @@ namespace MiniDungeon_MapCreator
                 for (int j = (int)(point.Y - height) + 1; j < point.Y + height; j++)
                     SetGridValue(new Point(i * gridSize.x, j * gridSize.y), value, mode);
             }
-
         }
 
         bool ContainsBit(byte value, byte bit)
@@ -199,11 +199,11 @@ namespace MiniDungeon_MapCreator
 
             Console.WriteLine("Display Set: " + display);
 
-            for (int i = 0; i < gridCount.y; i++)
+            for (int i = 0; i < cellCount; i++)
             {
-                for (int j = 0; j < gridCount.x; j++)
+                for (int j = 0; j < cellCount; j++)
                 {
-                    result += gridValues[j + i * gridCount.x];
+                    result += gridValues[j + i * cellCount];
                 }
                 result += "\n";
             }
@@ -217,8 +217,8 @@ namespace MiniDungeon_MapCreator
             string[] valueLines = gridValue.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             display = Encoding.ASCII.GetBytes(valueLines[0].ToCharArray(), 0, 1)[0];
            
-            for (int i = 0; i < gridCount.y; i++)
-                for (int j = 0; j < gridCount.x; j++)
+            for (int i = 0; i < cellCount; i++)
+                for (int j = 0; j < cellCount; j++)
                 {
                     SetGridValue(new Point(j * gridSize.x , i * gridSize.y), valueLines[i + 1].ElementAt(j), EditMode.CONSTRUCTION);
                 }

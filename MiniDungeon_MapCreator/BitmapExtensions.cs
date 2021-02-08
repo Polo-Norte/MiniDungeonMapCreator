@@ -13,17 +13,21 @@ namespace MiniDungeon_MapCreator
     {
         static public void DrawCell(this WriteableBitmap bitmap, GridArea grid, Point point, Color color)
         {
-            float2 pos = grid.GetGridPos(point);
-
-            Int32Rect rect = new Int32Rect((int)pos.x, (int)pos.y, (int)(grid.GridSize.x + 1), (int)(grid.GridSize.y + 1));
-            var stride = ((grid.GridSize.x + 0.5f) * bitmap.Format.BitsPerPixel + 7) / 8;
+            //float2 pos = grid.GetGridPos(point);
+            int2 pos = grid.GetGridCoord(point);
+            Int32Rect rect = new Int32Rect((int)pos.x * MainWindow.pixelCount, (int)pos.y * MainWindow.pixelCount, (int)(MainWindow.pixelCount), (int)(MainWindow.pixelCount));
+            float stride = ((rect.Width + 1) * bitmap.Format.BitsPerPixel + 7) / 8;
+            stride = (int)(stride / 4) * 4;
             byte[] colors = new byte[] { color.B, color.G, color.R, color.A };
-            byte[] buffer = Enumerable.Range(0, (int)stride * (int)(grid.GridSize.y + 1)).Select(i => colors[i % 4]).ToArray();
+            byte[] buffer = Enumerable.Range(0, (int)stride * (int)(rect.Height + 1)).Select(i => colors[i % 4]).ToArray();
+            //Console.WriteLine("Grid size: (" + grid.GridSize.x + "," + grid.GridSize.y + ")");
+            //Console.WriteLine("Offset: (" + offset.x + "," + offset.y + ")");
+            
 
             bitmap.WritePixels(rect, buffer, (int)(stride / 4) * 4, 0);
         }
 
-        public static void PaintArea(this WriteableBitmap bitmap, GridArea grid, int2 point1, int2 point2, Color color)
+        static public void PaintArea(this WriteableBitmap bitmap, GridArea grid, int2 point1, int2 point2, Color color)
         {
             int2 areaSize = new int2(Math.Abs(point2.x - point1.x), Math.Abs(point2.y - point1.y));
             int2 drawDirection = new int2(Math.Sign(point2.x - point1.x), Math.Sign(point2.y - point1.y));
