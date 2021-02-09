@@ -14,14 +14,17 @@ using System.Windows.Shapes;
 
 namespace MiniDungeon_MapCreator
 {
-    public partial class NewWindow : Window
+    public partial class NewWindow : Window, ISubWindow
     {
         MainWindow mainWindow;
-        public NewWindow(MainWindow mainWindow)
+        public NewWindow()
         {
             InitializeComponent();
-            this.mainWindow = mainWindow;
+        }
 
+        public void Create(MainWindow mainWindow)
+        {
+            this.mainWindow = mainWindow;
             Owner = mainWindow;
         }
 

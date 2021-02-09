@@ -23,7 +23,6 @@ namespace MiniDungeon_MapCreator
             //Console.WriteLine("Grid size: (" + grid.GridSize.x + "," + grid.GridSize.y + ")");
             //Console.WriteLine("Offset: (" + offset.x + "," + offset.y + ")");
             
-
             bitmap.WritePixels(rect, buffer, (int)(stride / 4) * 4, 0);
         }
 

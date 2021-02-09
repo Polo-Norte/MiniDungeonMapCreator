@@ -45,6 +45,7 @@ namespace MiniDungeon_MapCreator
         static readonly char[] fixedCells = { 'X', 'O', 'T', 'e' };
         private char[] gridValues;
         public WriteableBitmap bitmap;
+        public MainWindow mainWindow;
 
         private float2 gridSize;
         private int2 gridCount;
@@ -216,7 +217,10 @@ namespace MiniDungeon_MapCreator
         {
             string[] valueLines = gridValue.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             display = Encoding.ASCII.GetBytes(valueLines[0].ToCharArray(), 0, 1)[0];
-           
+
+            cellCount = valueLines[1].Length;
+            MainWindow.SaveConfig();
+            mainWindow.Setup();
             for (int i = 0; i < cellCount; i++)
                 for (int j = 0; j < cellCount; j++)
                 {

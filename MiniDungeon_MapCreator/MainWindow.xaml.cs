@@ -17,6 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace MiniDungeon_MapCreator
 {
@@ -40,16 +42,11 @@ namespace MiniDungeon_MapCreator
         public MainWindow()
         {
             InitializeComponent();
-            
-            gridSize = new float2((float)gridCanvas.Width / GridArea.cellCount, (float)gridCanvas.Height / GridArea.cellCount);
 
-            gridCanvas.GridSize = gridSize;
+            LoadConfig();
+            Setup();
+
             Panel.SetZIndex(gridCanvas, 2);
-            bitmap = new WriteableBitmap((int)GridArea.cellCount * pixelCount, (int)GridArea.cellCount * pixelCount, 64, 64, PixelFormats.Bgr32, null);
-            canvas.Source = bitmap;
-            
-            gridCanvas.bitmap = bitmap;
-            gridCanvas.SetupGrid(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3);
 
             KeyValuePair<char, GridCell>[] gridValues = GridArea.gridCellValues.ToArray();
             for (int i = 0; i < gridValues.Length - 4; i++)
@@ -58,9 +55,21 @@ namespace MiniDungeon_MapCreator
             }
             selectionPanel.Height = gridValues.Length * 25;
 
+            gridCanvas.mainWindow = this;
             selectedElement = new OptionElement(curValue);
             menuPanel.Children.Add(selectedElement);
             Canvas.SetTop(selectedElement, 250);
+        }
+
+        public void Setup()
+        {
+            gridSize = new float2((float)gridCanvas.Width / GridArea.cellCount, (float)gridCanvas.Height / GridArea.cellCount);
+            gridCanvas.GridSize = gridSize;
+            bitmap = new WriteableBitmap((int)GridArea.cellCount * pixelCount, (int)GridArea.cellCount * pixelCount, 64, 64, PixelFormats.Bgr32, null);
+            canvas.Source = bitmap;
+
+            gridCanvas.bitmap = bitmap;
+            gridCanvas.SetupGrid(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3);
         }
 
         public void SetValue(char value)
@@ -116,8 +125,6 @@ namespace MiniDungeon_MapCreator
             {
                 sizeBox.Text = "";
             }
-                
-            
         }
 
         private void SaveClick(object sender, RoutedEventArgs e)
@@ -158,24 +165,48 @@ namespace MiniDungeon_MapCreator
 
         private void NewClick(object sender, RoutedEventArgs e)
         {
-            NewWindow newButtonWindow = new NewWindow(this);
-
-            Point pos = PointToScreen(new Point(0, 0));
-
-            newButtonWindow.Left = pos.X + 150;
-            newButtonWindow.Top = pos.Y + 150;
-
-            newButtonWindow.ShowDialog();
+            CreateWindow<NewWindow>();
         }
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-
+            CreateWindow<SettingsWindow>();
         }
 
         private void WindowClosed(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void CreateWindow<T>() where T : Window, ISubWindow, new()
+        {
+            T newWindow = new T();
+            newWindow.Create(this);
+
+            Point pos = PointToScreen(new Point(0, 0));
+
+            newWindow.Left = pos.X + 150;
+            newWindow.Top = pos.Y + 150;
+
+            newWindow.ShowDialog();
+        }
+
+        static public void LoadConfig()
+        {
+            GridArea.cellCount = Int32.Parse(ConfigurationManager.AppSettings["GridSize"]);
+            GridArea.wallSize = Int32.Parse(ConfigurationManager.AppSettings["WallSize"]);
+            GridArea.doorSize = Int32.Parse(ConfigurationManager.AppSettings["DoorSize"]);
+        }
+
+        static public void SaveConfig()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.AppSettings.Settings["GridSize"].Value = GridArea.cellCount.ToString();
+            config.AppSettings.Settings["WallSize"].Value = GridArea.wallSize.ToString();
+            config.AppSettings.Settings["DoorSize"].Value = GridArea.doorSize.ToString();
+
+            config.Save(ConfigurationSaveMode.Modified);
         }
     }
 }
