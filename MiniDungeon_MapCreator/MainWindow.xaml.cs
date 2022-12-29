@@ -49,7 +49,7 @@ namespace MiniDungeon_MapCreator
             Panel.SetZIndex(gridCanvas, 2);
 
             KeyValuePair<char, GridCell>[] gridValues = GridArea.gridCellValues.ToArray();
-            for (int i = 0; i < gridValues.Length - 4; i++)
+            for (int i = 0; i < gridValues.Length - 1; i++)
             {
                 selectionPanel.Children.Add(new OptionElement(gridValues[i].Key));
             }
@@ -136,7 +136,7 @@ namespace MiniDungeon_MapCreator
             {
                 Console.WriteLine("Saved at: " + fileDialog.FileName);
                 StreamWriter file = new StreamWriter(fileDialog.FileName);
-                file.Write(gridCanvas.GetGridValues());
+                gridCanvas.GetGridValues(file);
                 file.Close();
             }
         }
@@ -153,8 +153,11 @@ namespace MiniDungeon_MapCreator
                 Console.WriteLine("Load File Selected at: " + fileDialog.FileName);
                 try
                 {
-                    string text = File.ReadAllText(fileDialog.FileName);
-                    gridCanvas.LoadGrid(text);
+                    StreamReader reader = new StreamReader(fileDialog.FileName);
+                    Newtonsoft.Json.JsonTextReader jsonReader = new Newtonsoft.Json.JsonTextReader(reader);
+                    Newtonsoft.Json.JsonSerializer serializer = Newtonsoft.Json.JsonSerializer.Create();
+                    GridData gridData = serializer.Deserialize<GridData>(jsonReader);
+                    gridCanvas.LoadGrid(gridData.gridData);
                 }
                 catch (Exception ex)
                 {

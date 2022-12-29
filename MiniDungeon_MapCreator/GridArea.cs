@@ -11,6 +11,17 @@ using System.Windows.Shapes;
 
 namespace MiniDungeon_MapCreator
 {
+    [Flags]
+    public enum DoorDirections
+    {
+        NONE = 0b0000_0000,
+        NORTH = 0b0000_0001,
+        SOUTH = 0b0000_0010,
+        WEST = 0b0000_0100,
+        EAST = 0b0000_1000,
+        CENTER = 0b0001_0000
+    }
+
     class GridArea : Canvas
     {
         public static int cellCount = 17;
@@ -19,9 +30,9 @@ namespace MiniDungeon_MapCreator
 
         public static Dictionary<char, GridCell> gridCellValues = new Dictionary<char, GridCell>()
         {
-            ['#'] = new GridCell(Colors.Black, "Wall"), // Parede
-            [' '] = new GridCell(Colors.Wheat, "Empty"), // Vazio
-            ['Q'] = new GridCell(Colors.Purple, "Op.Door"), //
+            ['#'] = new GridCell(Colors.Black, "Wall"),
+            [' '] = new GridCell(Colors.Wheat, "Empty"),
+            ['Q'] = new GridCell(Colors.Purple, "Op.Door"),
             ['E'] = new GridCell(Color.FromArgb(255, 210, 60, 60), "Enemy T1"),
             ['H'] = new GridCell(Color.FromArgb(255, 160, 40, 40), "Enemy T2"),
             ['K'] = new GridCell(Color.FromArgb(255, 110, 20, 20), "Enemy T3"),
@@ -32,14 +43,11 @@ namespace MiniDungeon_MapCreator
             ['d'] = new GridCell(Color.FromArgb(255, 119, 106, 204), "Decoration"),
             ['F'] = new GridCell(Color.FromArgb(255, 41, 22, 168), "Fluid"),
             ['f'] = new GridCell(Color.FromArgb(255, 17, 9, 71), "D. Fluid"),
-            ['P'] = new GridCell(Color.FromArgb(255, 148, 212, 188), "Mov. Plat."),
-            ['p'] = new GridCell(Color.FromArgb(255, 190, 212, 188), "Mov. Plat. H"),
-            ['R'] = new GridCell(Color.FromArgb(255, 108, 172, 148), "Roller"),
-            ['r'] = new GridCell(Color.FromArgb(255, 180, 180, 55), "Rope"),
-            ['e'] = new GridCell(Color.FromArgb(255, 122, 122, 82), "Elevator"),
-            ['T'] = new GridCell(Color.FromArgb(255, 220, 220, 240), "Roof"),
-            ['X'] = new GridCell(Colors.DarkRed, "Door"), // Porta
-            ['O'] = new GridCell(Color.FromArgb(255, 82, 82, 82), "Hole") // Abertura (Chão);
+            ['M'] = new GridCell(Color.FromArgb(255, 168, 186, 255), "Trap 1"),
+            ['m'] = new GridCell(Color.FromArgb(255, 103, 132, 245), "Trap 2"),
+            ['N'] = new GridCell(Color.FromArgb(255, 47, 86, 237), "Trap 3"),
+            ['n'] = new GridCell(Color.FromArgb(255, 3, 36, 161), "Trap 4"),
+            ['X'] = new GridCell(Colors.DarkRed, "Door"),
         };
 
         static readonly char[] fixedCells = { 'X', 'O', 'T', 'e' };
@@ -59,7 +67,7 @@ namespace MiniDungeon_MapCreator
             }
         }
 
-        private byte display = 0; // Doors position display (North, South, West, East and Center)
+        private DoorDirections display = 0; // Doors position display (North, South, West, East and Center)
 
         // Set the initial data
         public void SetupGrid(byte wallDisplay)
@@ -67,23 +75,23 @@ namespace MiniDungeon_MapCreator
             SetGridValueRect(new int2(0, 0), new int2(cellCount, cellCount), '#', EditMode.CONSTRUCTION);
             SetGridValueRect(new int2(wallSize, wallSize), new int2(cellCount - wallSize, cellCount - wallSize), ' ', EditMode.CONSTRUCTION);
 
-            display = wallDisplay;
+            display = (DoorDirections)wallDisplay;
 
-            if (ContainsBit(display, 1 << 0))
+            if (ContainsBit((byte)display, 1 << 0))
                 SetGridValueRect(new int2(cellCount / 2 - doorSize, 0), new int2(cellCount / 2 + doorSize, wallSize), 'X', EditMode.CONSTRUCTION);
-            if (ContainsBit(display, 1 << 1))
+            if (ContainsBit((byte)display, 1 << 1))
                 SetGridValueRect(new int2(cellCount - wallSize, cellCount / 2 - doorSize), new int2(cellCount, cellCount / 2 + doorSize), 'X', EditMode.CONSTRUCTION);
-            if (ContainsBit(display, 1 << 2))
+            if (ContainsBit((byte)display, 1 << 2))
                 SetGridValueRect(new int2(cellCount / 2 - doorSize, cellCount - wallSize), new int2(cellCount / 2 + doorSize, cellCount), 'X', EditMode.CONSTRUCTION);
-            if (ContainsBit(display, 1 << 3))
+            if (ContainsBit((byte)display, 1 << 3))
                 SetGridValueRect(new int2(0, cellCount / 2 - doorSize), new int2(wallSize, cellCount / 2 + doorSize), 'X', EditMode.CONSTRUCTION);
-            if (ContainsBit(display, 1 << 4))
+            if (ContainsBit((byte)display, 1 << 4))
             {
                 Point center = new Point(31 * gridSize.x, 31 * gridSize.y);
                 SetGridValueCircle(center, 2.5f, 'O', EditMode.CONSTRUCTION);
                 SetGridValue(center, 'e', EditMode.CONSTRUCTION);
             }
-            if (ContainsBit(display, 1 << 5))
+            if (ContainsBit((byte)display, 1 << 5))
                 SetGridValueCircle(new Point(31 * gridSize.x, 31 * gridSize.y), 2.5f, 'T', EditMode.CONSTRUCTION);
                 
         }
@@ -193,38 +201,41 @@ namespace MiniDungeon_MapCreator
         }
 
         // Builds a string with all data
-        public string GetGridValues()
+        public void GetGridValues(System.IO.StreamWriter streamWriter)
         {
-            string result = "";
-            result += Encoding.ASCII.GetString(new byte[] { display }) + "\n";
+            //string result = "";
+            //result += Encoding.ASCII.GetString(new byte[] { display }) + "\n";
+
+            char[][] gridSaveValues = new char[cellCount][];
 
             Console.WriteLine("Display Set: " + display);
 
             for (int i = 0; i < cellCount; i++)
             {
+                char[] gridLine = new char[cellCount];
                 for (int j = 0; j < cellCount; j++)
                 {
-                    result += gridValues[j + i * cellCount];
+                    //result += gridValues[j + i * cellCount];
+                    gridLine[j] = gridValues[j + i * cellCount];
                 }
-                result += "\n";
+
+                gridSaveValues[i] = gridLine;
             }
-            
-            return result;
+
+            Newtonsoft.Json.JsonSerializer serializer = Newtonsoft.Json.JsonSerializer.Create();
+            serializer.Serialize(streamWriter, new GridData(display, gridSaveValues));
         }
 
         // Loads a map by a string
-        public void LoadGrid(string gridValue)
+        public void LoadGrid(char[][] gridValue)
         {
-            string[] valueLines = gridValue.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            display = Encoding.ASCII.GetBytes(valueLines[0].ToCharArray(), 0, 1)[0];
-
-            cellCount = valueLines[1].Length;
+            cellCount = gridValue.Length;
             MainWindow.SaveConfig();
             mainWindow.Setup();
             for (int i = 0; i < cellCount; i++)
                 for (int j = 0; j < cellCount; j++)
                 {
-                    SetGridValue(new Point(j * gridSize.x , i * gridSize.y), valueLines[i + 1].ElementAt(j), EditMode.CONSTRUCTION);
+                    SetGridValue(new Point(j * gridSize.x , i * gridSize.y), gridValue[i][j], EditMode.CONSTRUCTION);
                 }
         }
 
@@ -244,6 +255,19 @@ namespace MiniDungeon_MapCreator
         {
             this.color = color;
             this.name = name;
+        }
+    }
+
+    [System.Serializable]
+    public class GridData
+    {
+        public DoorDirections doorDirections;
+        public char[][] gridData;
+
+        public GridData(DoorDirections doorDirections, char[][] gridData)
+        {
+            this.doorDirections = doorDirections;
+            this.gridData = gridData;
         }
     }
 }
