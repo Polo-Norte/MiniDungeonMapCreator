@@ -31,6 +31,7 @@ namespace MiniDungeon_MapCreator
         public static Dictionary<char, GridCell> gridCellValues = new Dictionary<char, GridCell>()
         {
             ['#'] = new GridCell(Colors.Black, "Wall"),
+            ['@'] = new GridCell(Colors.Cyan, "Hole"),
             [' '] = new GridCell(Colors.Wheat, "Empty"),
             ['Q'] = new GridCell(Colors.Purple, "Op.Door"),
             ['E'] = new GridCell(Color.FromArgb(255, 210, 60, 60), "Enemy T1"),
