@@ -38,6 +38,7 @@ namespace MiniDungeon_MapCreator
             ['H'] = new GridCell(Color.FromArgb(255, 160, 40, 40), "Enemy T2"),
             ['K'] = new GridCell(Color.FromArgb(255, 110, 20, 20), "Enemy T3"),
             ['J'] = new GridCell(Color.FromArgb(255, 60, 10, 10), "Boss"),
+            ['$'] = new GridCell(Color.FromArgb(255, 250, 248, 112), "Item Altar"),
             ['1'] = new GridCell(Color.FromArgb(255, 160, 220, 160), "Loot T1"),
             ['2'] = new GridCell(Color.FromArgb(255, 140, 180, 140), "Loot T2"),
             ['3'] = new GridCell(Color.FromArgb(255, 120, 140, 120), "Loot T3"),
