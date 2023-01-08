@@ -22,7 +22,7 @@ namespace MiniDungeon_MapCreator
             byte[] buffer = Enumerable.Range(0, (int)stride * (int)(rect.Height + 1)).Select(i => colors[i % 4]).ToArray();
             //Console.WriteLine("Grid size: (" + grid.GridSize.x + "," + grid.GridSize.y + ")");
             //Console.WriteLine("Offset: (" + offset.x + "," + offset.y + ")");
-            
+
             bitmap.WritePixels(rect, buffer, (int)(stride / 4) * 4, 0);
         }
 

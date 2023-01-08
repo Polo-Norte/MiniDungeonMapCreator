@@ -24,7 +24,8 @@ namespace MiniDungeon_MapCreator
         public SettingsWindow()
         {
             InitializeComponent();
-            sizeBox.Text = GridArea.cellCount.ToString();
+            sizeBoxX.Text = GridArea.cellCount.x.ToString();
+            sizeBoxY.Text = GridArea.cellCount.y.ToString();
             wallBox.Text = GridArea.wallSize.ToString();
             doorBox.Text = GridArea.doorSize.ToString();
         }
@@ -37,7 +38,7 @@ namespace MiniDungeon_MapCreator
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            GridArea.cellCount = Int32.Parse(sizeBox.Text);
+            GridArea.cellCount = new int2(Int32.Parse(sizeBoxX.Text), Int32.Parse(sizeBoxY.Text));
             GridArea.wallSize = Int32.Parse(wallBox.Text);
             GridArea.doorSize = Int32.Parse(doorBox.Text);
             MainWindow.SaveConfig();

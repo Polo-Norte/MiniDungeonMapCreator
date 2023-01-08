@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiniDungeon_MapCreator"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="174.731" Width="159.513" ResizeMode="NoResize" Background="#FF4D5355">
+        Title="SettingsWindow" Height="235.696" Width="159.513" ResizeMode="NoResize" Background="#FF4D5355">
     <Grid>
         <Button x:Name="ConfirmButton" Content="Confirm" Height="22" VerticalAlignment="Bottom" RenderTransformOrigin="0.617,4.587" Margin="0,0,37,10" Click="NewButton_Click" Foreground="#FFD2E1D2" FontSize="14" HorizontalAlignment="Right" Width="80">
             <Button.Style>
@@ -29,12 +29,14 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBox x:Name="sizeBox" TextWrapping="Wrap" Text="1" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="10,12,10,0" Padding="0,3,3,0" Height="24" VerticalAlignment="Top"/>
-        <TextBox x:Name="wallBox" TextWrapping="Wrap" Text="1" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="10,43,10,0" Padding="0,3,3,0" Height="24" VerticalAlignment="Top"/>
-        <TextBox x:Name="doorBox" TextWrapping="Wrap" Text="1" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="10,74,10,0" Padding="0,3,3,0" Height="24" VerticalAlignment="Top"/>
-        <Label Content="Grid:" RenderTransformOrigin="0.605,1.346" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False" Margin="10,9,10,0" Height="29" VerticalAlignment="Top"/>
-        <Label Content="Wall:" RenderTransformOrigin="0.605,1.346" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False" Margin="10,40,10,0" Height="29" VerticalAlignment="Top"/>
-        <Label Content="Door:" RenderTransformOrigin="0.605,1.346" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False" Margin="10,71,10,0" Height="29" VerticalAlignment="Top"/>
+        <TextBox x:Name="sizeBoxX" TextWrapping="Wrap" Text="1" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="10,12,10,0" Padding="0,3,3,0" Height="24" VerticalAlignment="Top"/>
+        <TextBox x:Name="sizeBoxY" TextWrapping="Wrap" Text="1" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="10,41,10,0" Padding="0,3,3,0" Height="24" VerticalAlignment="Top"/>
+        <TextBox x:Name="wallBox" TextWrapping="Wrap" Text="1" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="10,70,10,0" Padding="0,3,3,0" Height="24" VerticalAlignment="Top"/>
+        <TextBox x:Name="doorBox" TextWrapping="Wrap" Text="1" HorizontalContentAlignment="Right" Background="#FF647070" Foreground="#FFD2E1D2" Margin="10,99,10,0" Padding="0,3,3,0" Height="24" VerticalAlignment="Top"/>
+        <Label Content="Grid X:" RenderTransformOrigin="0.605,1.346" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False" Margin="10,9,10,0" Height="29" VerticalAlignment="Top"/>
+        <Label Content="Wall:" RenderTransformOrigin="0.605,1.346" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False" Margin="10,67,10,0" Height="29" VerticalAlignment="Top"/>
+        <Label Content="Door:" RenderTransformOrigin="0.605,1.346" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False" Margin="10,96,10,0" Height="29" VerticalAlignment="Top"/>
+        <Label x:Name="___Label___Grid_Y_" Content="Grid Y:" RenderTransformOrigin="0.605,1.346" Foreground="#FFD2E1D2" FontSize="14" IsHitTestVisible="False" Margin="10,38,10,0" Height="29" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

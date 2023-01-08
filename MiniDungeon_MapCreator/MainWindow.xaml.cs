@@ -63,12 +63,14 @@ namespace MiniDungeon_MapCreator
 
         public void Setup()
         {
-            gridSize = new float2((float)gridCanvas.Width / GridArea.cellCount, (float)gridCanvas.Height / GridArea.cellCount);
-            gridCanvas.GridSize = gridSize;
-            bitmap = new WriteableBitmap((int)GridArea.cellCount * pixelCount, (int)GridArea.cellCount * pixelCount, 64, 64, PixelFormats.Bgr32, null);
+            gridCanvas.ClampGridSize();
+
+            gridSize = new float2((float)gridCanvas.Width / GridArea.cellCount.x, (float)gridCanvas.Height / GridArea.cellCount.y);
+            bitmap = new WriteableBitmap((int)GridArea.cellCount.x * pixelCount, (int)GridArea.cellCount.y * pixelCount, 64, 64, PixelFormats.Bgr32, null);
             canvas.Source = bitmap;
 
             gridCanvas.bitmap = bitmap;
+            gridCanvas.GridSize = gridSize;
             gridCanvas.SetupGrid(1 << 0 | 1 << 1 | 1 << 2 | 1 << 3);
         }
 
@@ -196,7 +198,8 @@ namespace MiniDungeon_MapCreator
 
         static public void LoadConfig()
         {
-            GridArea.cellCount = Int32.Parse(ConfigurationManager.AppSettings["GridSize"]);
+            GridArea.cellCount.x = Int32.Parse(ConfigurationManager.AppSettings["GridSizeX"]);
+            GridArea.cellCount.y = Int32.Parse(ConfigurationManager.AppSettings["GridSizeY"]);
             GridArea.wallSize = Int32.Parse(ConfigurationManager.AppSettings["WallSize"]);
             GridArea.doorSize = Int32.Parse(ConfigurationManager.AppSettings["DoorSize"]);
         }
@@ -205,7 +208,8 @@ namespace MiniDungeon_MapCreator
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            config.AppSettings.Settings["GridSize"].Value = GridArea.cellCount.ToString();
+            config.AppSettings.Settings["GridSizeX"].Value = GridArea.cellCount.x.ToString();
+            config.AppSettings.Settings["GridSizeY"].Value = GridArea.cellCount.y.ToString();
             config.AppSettings.Settings["WallSize"].Value = GridArea.wallSize.ToString();
             config.AppSettings.Settings["DoorSize"].Value = GridArea.doorSize.ToString();
 
