@@ -111,16 +111,16 @@ namespace MiniDungeon_MapCreator
             gridCount = new int2((int)(Width / gridSize.x), (int)(Height / gridSize.y));
             Brush gridBrush = new SolidColorBrush(Color.FromArgb(180, 210, 127, 127));
 
-            float proportionX = bitmap.PixelWidth / (float)bitmap.PixelHeight;
-            float proportionY = (float)bitmap.PixelHeight / bitmap.PixelWidth;
+            float proportionX = Math.Min(bitmap.PixelWidth / (float)bitmap.PixelHeight, 1f);
+            float proportionY = Math.Min((float)bitmap.PixelHeight / bitmap.PixelWidth, 1f);
 
             for (int i = 1; i < cellCount.y; i++)
             {
                 Line line = new Line
                 {
-                    X1 = Width / 2 - Width * Math.Min(proportionX, 1f) / 2,
-                    X2 = Width / 2 + Width * Math.Min(proportionX, 1f) / 2,
-                    Y1 = Height / 2 - Height * Math.Min(proportionY, 1f) / 2 + i * gridSize.y * Math.Min(proportionY, 1f)
+                    X1 = Width / 2 - Width * proportionX / 2,
+                    X2 = Width / 2 + Width * proportionX / 2,
+                    Y1 = Height / 2 - Height * proportionY / 2 + i * gridSize.y * proportionY
                 };
                 line.Y2 = line.Y1;
 
@@ -132,9 +132,9 @@ namespace MiniDungeon_MapCreator
             {
                 Line line = new Line
                 {
-                    X1 = (Width / 2 - Width * Math.Min(proportionX, 1f) / 2) + i * gridSize.x * Math.Min(proportionX, 1f),
-                    Y1 = Height / 2 - Height * Math.Min(proportionY, 1f) / 2,
-                    Y2 = Height / 2 + Height * Math.Min(proportionY, 1f) / 2,
+                    X1 = (Width / 2 - Width * proportionX / 2) + i * gridSize.x * proportionX,
+                    Y1 = Height / 2 - Height * proportionY / 2,
+                    Y2 = Height / 2 + Height * proportionY / 2,
                 };
                 line.X2 = line.X1;
                 line.Stroke = gridBrush;
@@ -157,6 +157,20 @@ namespace MiniDungeon_MapCreator
         public int2 GetGridCoord(Point pos)
         {
             return new int2((int)(pos.X / gridSize.x), (int)(pos.Y / gridSize.y));
+        }
+
+        public Point RelativePoint(Point pos)
+        {
+            float proportionX = Math.Min(bitmap.PixelWidth / (float)bitmap.PixelHeight, 1f);
+            float proportionY = Math.Min((float)bitmap.PixelHeight / bitmap.PixelWidth, 1f);
+
+            float2 gridStart = new float2((float)(Width / 2 - Width * proportionX / 2), (float)(Height / 2 - Height * proportionY / 2));
+            float2 gridEnd = new float2((float)(Width / 2 + Width * proportionX / 2), (float)(Height / 2 + Height * proportionY / 2));
+
+            pos.X = Math.Max(Math.Min(pos.X - gridStart.x, gridEnd.x), 0) / proportionX;
+            pos.Y = Math.Max(Math.Min(pos.Y - gridStart.y, gridEnd.y), 0) / proportionY;
+
+            return pos;
         }
 
         public void SetGridValue(Point point, char value, EditMode mode)
@@ -226,7 +240,7 @@ namespace MiniDungeon_MapCreator
                 for (int j = 0; j < cellCount.x; j++)
                 {
                     //result += gridValues[j + i * cellCount];
-                    gridLine[j] = gridValues[j + i * cellCount.y];
+                    gridLine[j] = gridValues[j + i * cellCount.x];
                 }
 
                 gridSaveValues[i] = gridLine;

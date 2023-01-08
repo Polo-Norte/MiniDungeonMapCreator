@@ -86,16 +86,16 @@ namespace MiniDungeon_MapCreator
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            gridCanvas.SetGridValue(e.GetPosition(gridCanvas), curValue, GridArea.EditMode.CONSTRUCTION);
+            gridCanvas.SetGridValue(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)), curValue, GridArea.EditMode.CONSTRUCTION);
             drawing = true;
         }
         
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (drawing)
-                gridCanvas.SetGridValueCircle(e.GetPosition(gridCanvas), curSize, curValue, GridArea.EditMode.EDIT);
+                gridCanvas.SetGridValueCircle(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)), curSize, curValue, GridArea.EditMode.EDIT);
 
-            int2 coords = gridCanvas.GetGridCoord(e.GetPosition(gridCanvas));
+            int2 coords = gridCanvas.GetGridCoord(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)));
             coordLabel.Content = coords.x + " / " + coords.y;
         }
 
