@@ -45,11 +45,13 @@ namespace MiniDungeon_MapCreator
             ['3'] = new GridCell(Color.FromArgb(255, 120, 140, 120), "Loot T3"),
             ['d'] = new GridCell(Color.FromArgb(255, 119, 106, 204), "Decoration"),
             ['F'] = new GridCell(Color.FromArgb(255, 41, 22, 168), "Fluid"),
-            ['f'] = new GridCell(Color.FromArgb(255, 17, 9, 71), "D. Fluid"),
             ['M'] = new GridCell(Color.FromArgb(255, 168, 186, 255), "Trap 1"),
             ['m'] = new GridCell(Color.FromArgb(255, 103, 132, 245), "Trap 2"),
             ['N'] = new GridCell(Color.FromArgb(255, 47, 86, 237), "Trap 3"),
             ['n'] = new GridCell(Color.FromArgb(255, 3, 36, 161), "Trap 4"),
+            ['h'] = new GridCell(Color.FromArgb(255, 215, 255, 0), "Special Object 1"),
+            ['j'] = new GridCell(Color.FromArgb(255, 146, 173, 0), "Special Object 2"),
+            ['k'] = new GridCell(Color.FromArgb(255, 80, 94, 0), "Special Object 3"),
             ['X'] = new GridCell(Colors.DarkRed, "Door"),
         };
 
