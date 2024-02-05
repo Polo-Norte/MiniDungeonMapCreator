@@ -30,12 +30,14 @@ namespace MiniDungeon_MapCreator
 
         public static Dictionary<char, GridCell> gridCellValues = new Dictionary<char, GridCell>()
         {
+            [' '] = new GridCell(Colors.Wheat, "Empty"),
             ['#'] = new GridCell(Colors.Black, "Wall"),
             ['@'] = new GridCell(Colors.Cyan, "Hole"),
-            [' '] = new GridCell(Colors.Wheat, "Empty"),
+            ['E'] = new GridCell(Color.FromArgb(255, 210, 60, 60), "Mushroom"),
+            ['H'] = new GridCell(Color.FromArgb(255, 160, 40, 40), "Slime"),
+            ['M'] = new GridCell(Color.FromArgb(255, 168, 186, 255), "Spike"),
+            ['m'] = new GridCell(Color.FromArgb(255, 103, 132, 245), "Dart"),
             ['Q'] = new GridCell(Colors.Purple, "Op.Door"),
-            ['E'] = new GridCell(Color.FromArgb(255, 210, 60, 60), "Enemy T1"),
-            ['H'] = new GridCell(Color.FromArgb(255, 160, 40, 40), "Enemy T2"),
             ['K'] = new GridCell(Color.FromArgb(255, 110, 20, 20), "Enemy T3"),
             ['J'] = new GridCell(Color.FromArgb(255, 60, 10, 10), "Boss"),
             ['%'] = new GridCell(Color.FromArgb(255, 250, 248, 112), "Item Altar"),
@@ -45,8 +47,6 @@ namespace MiniDungeon_MapCreator
             ['3'] = new GridCell(Color.FromArgb(255, 120, 140, 120), "Loot T3"),
             ['d'] = new GridCell(Color.FromArgb(255, 119, 106, 204), "Decoration"),
             ['F'] = new GridCell(Color.FromArgb(255, 41, 22, 168), "Fluid"),
-            ['M'] = new GridCell(Color.FromArgb(255, 168, 186, 255), "Trap 1"),
-            ['m'] = new GridCell(Color.FromArgb(255, 103, 132, 245), "Trap 2"),
             ['N'] = new GridCell(Color.FromArgb(255, 47, 86, 237), "Trap 3"),
             ['n'] = new GridCell(Color.FromArgb(255, 3, 36, 161), "Trap 4"),
             ['h'] = new GridCell(Color.FromArgb(255, 215, 255, 0), "Special Object 1"),

@@ -19,6 +19,7 @@ using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Configuration;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace MiniDungeon_MapCreator
 {
@@ -30,6 +31,7 @@ namespace MiniDungeon_MapCreator
         public static int pixelCount = 4;
 
         private char curValue = ' ';
+        private char finalValue;
         private float curSize = 1;
         public OptionElement selectedElement;
 
@@ -86,14 +88,15 @@ namespace MiniDungeon_MapCreator
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            gridCanvas.SetGridValue(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)), curValue, GridArea.EditMode.CONSTRUCTION);
+            finalValue = e.ChangedButton == MouseButton.Left ? curValue : ' ';
+            gridCanvas.SetGridValue(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)), finalValue, GridArea.EditMode.CONSTRUCTION);
             drawing = true;
         }
         
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (drawing)
-                gridCanvas.SetGridValueCircle(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)), curSize, curValue, GridArea.EditMode.EDIT);
+                gridCanvas.SetGridValueCircle(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)), curSize, finalValue, GridArea.EditMode.EDIT);
 
             int2 coords = gridCanvas.GetGridCoord(gridCanvas.RelativePoint(e.GetPosition(gridCanvas)));
             coordLabel.Content = coords.x + " / " + coords.y;
@@ -155,6 +158,8 @@ namespace MiniDungeon_MapCreator
                 Console.WriteLine("Load File Selected at: " + fileDialog.FileName);
                 try
                 {
+                    string[] fileNameSlplit = fileDialog.FileName.Split('\\');
+                    Title = fileNameSlplit[fileNameSlplit.Length - 1];
                     StreamReader reader = new StreamReader(fileDialog.FileName);
                     Newtonsoft.Json.JsonTextReader jsonReader = new Newtonsoft.Json.JsonTextReader(reader);
                     Newtonsoft.Json.JsonSerializer serializer = Newtonsoft.Json.JsonSerializer.Create();
