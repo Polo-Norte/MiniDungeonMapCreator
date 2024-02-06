@@ -33,6 +33,7 @@ namespace MiniDungeon_MapCreator
             [' '] = new GridCell(Colors.Wheat, "Empty"),
             ['#'] = new GridCell(Colors.Black, "Wall"),
             ['@'] = new GridCell(Colors.Cyan, "Hole"),
+            ['C'] = new GridCell(Color.FromArgb(255, 145, 110, 61), "Chest"),
             ['E'] = new GridCell(Color.FromArgb(255, 210, 60, 60), "Mushroom"),
             ['H'] = new GridCell(Color.FromArgb(255, 160, 40, 40), "Slime"),
             ['M'] = new GridCell(Color.FromArgb(255, 168, 186, 255), "Spike"),
