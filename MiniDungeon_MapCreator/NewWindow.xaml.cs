@@ -37,8 +37,8 @@ namespace MiniDungeon_MapCreator
         {
             byte setup = 0;
             setup |= (byte)((bool)northBox.IsChecked ? 1 << 0 : 0);
-            setup |= (byte)((bool)eastBox.IsChecked ? 1 << 1 : 0);
-            setup |= (byte)((bool)southBox.IsChecked ? 1 << 2 : 0);
+            setup |= (byte)((bool)southBox.IsChecked ? 1 << 1 : 0);
+            setup |= (byte)((bool)eastBox.IsChecked ? 1 << 2 : 0);
             setup |= (byte)((bool)westBox.IsChecked ? 1 << 3 : 0);
             setup |= (byte)((bool)centerBox.IsChecked ? 1 << 4 : 0);
             setup |= (byte)((bool)topBox.IsChecked && (bool)!centerBox.IsChecked ? 1 << 5 : 0);
