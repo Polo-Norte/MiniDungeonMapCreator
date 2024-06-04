@@ -14,12 +14,12 @@ namespace MiniDungeon_MapCreator
     [Flags]
     public enum DoorDirections
     {
-        NONE = 0b0000_0000,
-        NORTH = 0b0000_0001,
-        SOUTH = 0b0000_0010,
-        WEST = 0b0000_0100,
-        EAST = 0b0000_1000,
-        CENTER = 0b0001_0000
+        NONE    = 0b0000_0000,
+        NORTH   = 0b0000_0001,
+        SOUTH   = 0b0000_0010,
+        EAST    = 0b0000_0100,
+        WEST    = 0b0000_1000,
+        CENTER  = 0b0001_0000
     }
 
     class GridArea : Canvas
@@ -91,9 +91,9 @@ namespace MiniDungeon_MapCreator
             if (ContainsBit((byte)display, 1 << 0))
                 SetGridValueRect(new int2(cellCount.x / 2 - doorSize, 0), new int2(cellCount.x / 2 + doorSize, wallSize), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit((byte)display, 1 << 1))
-                SetGridValueRect(new int2(cellCount.x - wallSize, cellCount.y / 2 - doorSize), new int2(cellCount.x, cellCount.y / 2 + doorSize), 'X', EditMode.CONSTRUCTION);
-            if (ContainsBit((byte)display, 1 << 2))
                 SetGridValueRect(new int2(cellCount.x / 2 - doorSize, cellCount.y - wallSize), new int2(cellCount.x / 2 + doorSize, cellCount.y), 'X', EditMode.CONSTRUCTION);
+            if (ContainsBit((byte)display, 1 << 2))
+                SetGridValueRect(new int2(cellCount.x - wallSize, cellCount.y / 2 - doorSize), new int2(cellCount.x, cellCount.y / 2 + doorSize), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit((byte)display, 1 << 3))
                 SetGridValueRect(new int2(0, cellCount.y / 2 - doorSize), new int2(wallSize, cellCount.y / 2 + doorSize), 'X', EditMode.CONSTRUCTION);
             if (ContainsBit((byte)display, 1 << 4))
