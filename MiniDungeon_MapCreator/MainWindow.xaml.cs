@@ -159,7 +159,7 @@ namespace MiniDungeon_MapCreator
                     Newtonsoft.Json.JsonTextReader jsonReader = new Newtonsoft.Json.JsonTextReader(reader);
                     Newtonsoft.Json.JsonSerializer serializer = Newtonsoft.Json.JsonSerializer.Create();
                     GridData gridData = serializer.Deserialize<GridData>(jsonReader);
-                    gridCanvas.LoadGrid(gridData.gridData);
+                    gridCanvas.LoadGrid(gridData);
                 }
                 catch (Exception ex)
                 {

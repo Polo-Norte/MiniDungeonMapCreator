@@ -253,16 +253,18 @@ namespace MiniDungeon_MapCreator
         }
 
         // Loads a map by a string
-        public void LoadGrid(char[][] gridValue)
+        public void LoadGrid(GridData gridData)
         {
-            cellCount = new int2(gridValue[0].Length, gridValue.Length);
+            cellCount = new int2(gridData.gridValues[0].Length, gridData.gridValues.Length);
             MainWindow.SaveConfig();
             mainWindow.Setup();
             for (int i = 0; i < cellCount.y; i++)
                 for (int j = 0; j < cellCount.x; j++)
                 {
-                    SetGridValue(new Point(j * gridSize.x , i * gridSize.y), gridValue[i][j], EditMode.CONSTRUCTION);
+                    SetGridValue(new Point(j * gridSize.x , i * gridSize.y), gridData.gridValues[i][j], EditMode.CONSTRUCTION);
                 }
+
+            display = gridData.doorDirections;
         }
 
         public enum EditMode
@@ -288,12 +290,12 @@ namespace MiniDungeon_MapCreator
     public class GridData
     {
         public DoorDirections doorDirections;
-        public char[][] gridData;
+        public char[][] gridValues;
 
         public GridData(DoorDirections doorDirections, char[][] gridData)
         {
             this.doorDirections = doorDirections;
-            this.gridData = gridData;
+            this.gridValues = gridData;
         }
     }
 }
